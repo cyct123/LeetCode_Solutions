@@ -45,6 +45,20 @@
 # @lc code=start
 class Solution:
     def firstMissingPositive(self, nums: List[int]) -> int:
+        l = [0] * len(nums)
+        for i in nums:
+            if i <= 0 or i > len(nums):
+                continue
+            l[i - 1] += 1
+        i = 0
+        while i < len(l):
+            if l[i] == 0:
+                return i + 1
+            i += 1
+        return i + 1
+
+class Solution1:
+    def firstMissingPositive(self, nums: List[int]) -> int:
         num_set = set(nums)
         counter = 1
         while counter in num_set:
