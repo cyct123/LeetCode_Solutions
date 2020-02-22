@@ -53,7 +53,27 @@
 #         self.left = None
 #         self.right = None
 
+# iterativeSolution
 class Solution:
+    def isSymmetric(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+        stack = [(root.left, root.right)]
+        while stack:
+            left, right = stack.pop()
+            if not left and not right:
+                continue
+            if not left or not right:
+                return False
+            if left.val == right.val:
+                stack.append((left.left, right.right))
+                stack.append((left.right, right.left))
+            else:
+                return False
+        return True
+
+# @lc code=end
+class recursiveSolution:
     def isSymmetric(self, root: TreeNode) -> bool:
         return self.isMirror(root, root)
 
@@ -64,7 +84,4 @@ class Solution:
             return False
         return left.val == right.val and self.isMirror(left.left, right.right) and self.isMirror(left.right, right.left)
 
-
-
-# @lc code=end
 
