@@ -65,10 +65,30 @@
 #         self.left = None
 #         self.right = None
 
-class Solution:
+class iterativeSolution:
     def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
-        print(self.order(p))
-        print(self.order(q))
+        return self.order(p) == self.order(q)
+
+    def order(self, root: TreeNode) -> bool:
+        res = []
+        stack = []
+        if not root:
+            return res
+        stack.append(root)
+        while stack:
+            node = stack.pop()
+            if node:
+                res.append(node.val)
+                stack.append(node.right)
+                stack.append(node.left)
+            else:
+                res.append(None)
+        return res
+
+# @lc code=end
+
+class recursiveSolution:
+    def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
         return self.order(p) == self.order(q)
 
     def order(self, p: TreeNode) -> List[int]:
@@ -80,6 +100,4 @@ class Solution:
         else:
             o.append(None)
         return o
-
-# @lc code=end
 
