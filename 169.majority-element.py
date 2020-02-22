@@ -38,16 +38,11 @@
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
         d = {}
-        for i in nums:
-            val = d.get(i, 0)
-            val += 1
-            d[i] = val
-        majority_element = None
-        max_appearance = 0
-        for k, v in d.items():
-            if not majority_element or max_appearance < v:
-                majority_element = k
-                max_appearance = v
-        return majority_element
+        for num in nums:
+            count = d.get(num, 0)
+            count += 1
+            if count >= len(nums) / 2:
+                return num
+            d[num] = count
 # @lc code=end
 
