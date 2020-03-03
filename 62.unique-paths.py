@@ -54,13 +54,13 @@ class Solution:
         dp = [0] * m * n
         dp[0] = 1
         for i in range(1, m * n):
-            row = i // n + 1
-            col = i - (row - 1) * n
+            row = i // n
+            col = i - row * n
             if row >= 1:
-                idx = (row - 1 - 1) * n + col
+                idx = (row - 1) * n + col
                 dp[i] += dp[idx]
             if col >= 1:
-                idx = (row - 1) * n + col - 1
+                idx = row * n + col - 1
                 dp[i] += dp[idx]
         return dp[-1]
 
