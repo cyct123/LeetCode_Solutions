@@ -62,7 +62,19 @@
 #         self.left = None
 #         self.right = None
 
+# recursive solution
 class Solution:
+    def isValidBST(self, root: TreeNode) -> bool:
+        def isBST(root, min, max):
+            if not root:
+                return True
+            if root.val <= min or root.val >= max:
+                return False
+            return isBST(root.left, min, root.val) and isBST(root.right, root.val, max)
+        return isBST(root, float('-inf'), float('inf'))
+# @lc code=end
+# iterative solution
+class iterativeSolution:
     def isValidBST(self, root: TreeNode) -> bool:
         vals = []
         stack = []
@@ -78,5 +90,4 @@ class Solution:
                 root = node.right
         return True
 
-# @lc code=end
 
