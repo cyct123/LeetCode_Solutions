@@ -43,11 +43,28 @@
 #         self.left = None
 #         self.right = None
 
+#iterative solution
 class Solution:
     def maxDepth(self, root: TreeNode) -> int:
         if not root:
             return 0
-        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+        stack, depth = [(root, 1)], 0
+        while stack:
+            node, curDepth = stack.pop()
+            if node:
+                depth = max(depth, curDepth)
+                if node.right:
+                    stack.append((node.right, curDepth+1))
+                if node.left:
+                    stack.append((node.left, curDepth+1))
+        return depth
+
 
 # @lc code=end
 
+# recursive solution
+class recursiveSolution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
