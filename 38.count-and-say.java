@@ -62,29 +62,27 @@
 // @lc code=start
 class Solution {
     public String countAndSay(int n) {
-        if (n == 1)
-            return "1";
-        String ret = "";
-        char prev = '\0';
-        int count = 0;
-        String prevStr = countAndSay(n-1);
-        for (int i = 0; i < prevStr.length(); i++) {
-            char c = prevStr.charAt(i);
-            if (prev == '\0') {
-                prev = c;
-                count++;
-            } else if (prev == c) {
-                count++;
-            } else {
-                ret += count;
-                ret += prev;
-                prev = c;
-                count = 1;
+        String ret = "1";
+        for (int i = 1; i < n; i++) {
+            String prev = ret;
+            ret = "";
+            char prevChar = prev.charAt(0);
+            int count = 1;
+            for (int j = 1; j < prev.length(); j++) {
+                char curChar = prev.charAt(j);
+                if (curChar == prevChar)
+                    count++;
+                else {
+                    ret += count;
+                    ret += prevChar;
+                    prevChar = curChar;
+                    count = 1;
+                }
             }
-        }
-        if (count != 0) {
-            ret += count;
-            ret += prev;
+            if (count != 0) {
+                ret += count;
+                ret += prevChar;
+            }
         }
         return ret;
     }
