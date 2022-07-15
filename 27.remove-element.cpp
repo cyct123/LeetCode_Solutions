@@ -7,35 +7,32 @@
 // @lc code=start
 //#include <vector>
 //#include <iostream>
+//#include <iterator>
+//#include <algorithm>
+//using std::copy;
+//using std::ostream_iterator;
 //using std::endl;
 //using std::cout;
 //using std::vector;
 class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {
-        if (nums.empty())
-            return 0;
-        int left = 0;
-        int right = nums.size() - 1;
-        for(; right >= 0 && nums[right] == val; --right);
-        while (left <= right) {
-            if(nums[left] == val) {
-                int tmp = nums[right];
-                nums[right] = nums[left];
-                nums[left] = tmp;
-                for(; right >= 0 && nums[right] == val; --right);
-            }
-            ++left;
+        int slowIndex = 0;
+        for(int fastIndex = 0; fastIndex != nums.size(); ++fastIndex){
+            if(val != nums[fastIndex])
+                nums[slowIndex++] = nums[fastIndex];
         }
-        return left; 
+        return slowIndex;
     }
 };
 
 //int main() {
-//    vector<int> nums{0};
-//    int val = 1;
+//    vector<int> nums{3, 2, 2, 3};
+//    int val = 3;
 //    Solution s = Solution();
-//    cout << s.removeElement(nums, val) << endl;
+//    int len = s.removeElement(nums, val);
+//    cout << len << endl;
+//    copy(nums.begin(), nums.end(), ostream_iterator<int>(cout, " "));
 //    return 0; 
 //}
 // @lc code=end
