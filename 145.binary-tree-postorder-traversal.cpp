@@ -18,6 +18,10 @@
  */
 #include <vector>
 using std::vector;
+#include <stack>
+using std::stack;
+#include <algorithm>
+using std::reverse;
 
 struct TreeNode {
     int val;
@@ -32,15 +36,18 @@ class Solution {
 public:
     vector<int> postorderTraversal(TreeNode* root) {
         vector<int> res;
-        traversal(root, res);
-        return res;        
-    }
-private:
-    void traversal(TreeNode* root, vector<int>& v) {
-        if (!root) return;
-        traversal(root->left, v);
-        traversal(root->right, v);
-        v.push_back(root->val);
+        if (!root) return res;
+        stack<TreeNode*> s;
+        s.push(root);
+        while (!s.empty()) {
+            TreeNode* cur = s.top();
+            s.pop();
+            res.push_back(cur->val);
+            if (cur->left) s.push(cur->left);
+            if (cur->right) s.push(cur->right);
+        }
+        reverse(res.begin(), res.end()); 
+        return res;
     }
 };
 // @lc code=end
