@@ -38,10 +38,18 @@ public:
         s.push(root);
         while (!s.empty()) {
             TreeNode* cur = s.top();
-            s.pop();
-            res.push_back(cur->val);
-            if(cur->right) s.push(cur->right);
-            if(cur->left) s.push(cur->left);
+            if (cur) {
+                s.pop();
+                if(cur->right) s.push(cur->right);
+                if (cur->left) s.push(cur->left);
+                s.push(cur);
+                s.push(nullptr);
+            } else {
+                s.pop();
+                cur = s.top();
+                s.pop();
+                res.push_back(cur->val);
+            }
         }
         return res;
     }
