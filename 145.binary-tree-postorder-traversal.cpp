@@ -41,12 +41,19 @@ public:
         s.push(root);
         while (!s.empty()) {
             TreeNode* cur = s.top();
-            s.pop();
-            res.push_back(cur->val);
-            if (cur->left) s.push(cur->left);
-            if (cur->right) s.push(cur->right);
+            if (cur) {
+                s.pop();
+                s.push(cur);
+                s.push(nullptr);
+                if(cur->right) s.push(cur->right);
+                if(cur->left) s.push(cur->left);
+            } else {
+                s.pop();
+                cur = s.top();
+                s.pop();
+                res.push_back(cur->val);
+            }
         }
-        reverse(res.begin(), res.end()); 
         return res;
     }
 };
