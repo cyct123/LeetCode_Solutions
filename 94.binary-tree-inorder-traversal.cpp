@@ -18,6 +18,10 @@
  */
 //#include <vector>
 //using std::vector;
+//#include <stack>
+//using std::stack;
+//#include <unordered_set>
+//using std::unordered_set;
 //
 //struct TreeNode {
 //    int val;
@@ -31,17 +35,24 @@
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> res;
-        traversal(root, res);
+        vector<int> res; 
+        if (!root) return res;
+        unordered_set<TreeNode*> visited;
+        stack<TreeNode*> s;
+        s.push(root);
+        while (!s.empty()) {
+            TreeNode* cur = s.top();
+            visited.insert(cur);
+            if (cur->left && !visited.count(cur->left)) {
+                s.push(cur->left);
+                continue;
+            }
+            res.push_back(cur->val);
+            s.pop();
+            if(cur->right && !visited.count(cur->right))
+                s.push(cur->right);
+        }
         return res;
-    }
-    
-private:
-    void traversal(TreeNode* root, vector<int>& v) {
-        if (!root) return;
-        traversal(root->left, v);
-        v.push_back(root->val);
-        traversal(root->right, v);
     }
 };
 // @lc code=end
