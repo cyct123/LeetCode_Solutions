@@ -16,6 +16,8 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+//#include <stack>
+//using std::stack;
 //struct TreeNode {
 //    int val;
 //    TreeNode *left;
@@ -28,19 +30,19 @@
 class Solution {
 public:
     TreeNode* invertTree(TreeNode* root) {
-        if(!root) return root;        
-        invert(root);
+        stack<TreeNode*> s;
+        if (root) s.push(root);
+        while (!s.empty()) {
+            TreeNode* cur = s.top();
+            s.pop();
+            TreeNode* left = cur->left;
+            TreeNode* right = cur->right;
+            cur->left = right;
+            cur->right = left;
+            if (cur->left) s.push(cur->left);
+            if (cur->right) s.push(cur->right);
+        }
         return root;
-    }
-private:
-    void invert(TreeNode* root) {
-        if (!root) return;
-        TreeNode* left = root->left;
-        TreeNode* right = root->right;
-        root->left = right;
-        root->right = left;
-        invert(root->left);
-        invert(root->right);
     }
 };
 // @lc code=end
