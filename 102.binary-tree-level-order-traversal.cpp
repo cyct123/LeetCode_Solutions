@@ -32,21 +32,20 @@
 class Solution {
 public:
     vector<vector<int> > levelOrder(TreeNode* root) {
-        vector<TreeNode*> curLevel;
-        vector<TreeNode*> nextLevel;
+        queue<TreeNode*> q;
         vector<vector<int> > res;
-        if(root) curLevel.push_back(root);
-        while (!curLevel.empty()) {
+        if(root) q.push(root);
+        while (!q.empty()) {
             vector<int> curRes;
-            for (vector<TreeNode*>::iterator itr = curLevel.begin(); itr != curLevel.end(); ++itr) {
-                curRes.push_back((*itr)->val);
-                if ((*itr)->left) nextLevel.push_back((*itr)->left);
-                if ((*itr)->right) nextLevel.push_back((*itr)->right);
+            int size = q.size();
+            for (int i = 0; i != size; ++i) {
+                TreeNode * cur = q.front();
+                q.pop();
+                curRes.push_back(cur->val);
+                if (cur->left) q.push(cur->left);
+                if (cur->right) q.push(cur->right);
             }
             res.push_back(curRes);
-            curRes.clear();
-            curLevel = nextLevel;
-            nextLevel.clear();
         } 
         return res;
     }
