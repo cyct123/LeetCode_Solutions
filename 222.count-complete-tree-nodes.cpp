@@ -32,8 +32,17 @@
 class Solution {
 public:
     int countNodes(TreeNode* root) {
-        if (!root) return 0;        
-        return 1 + countNodes(root->left) + countNodes(root->right);
+        int count = 0;
+        if (!root) return count;        
+        queue<TreeNode*> q;
+        q.push(root);
+        while (!q.empty()) {
+            TreeNode* cur = q.front(); q.pop();
+            ++count;
+            if(cur->left) q.push(cur->left);
+            if(cur->right) q.push(cur->right);
+        }
+        return count;
     }
 };
 // @lc code=end
