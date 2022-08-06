@@ -44,9 +44,18 @@ public:
     }
 private:
     bool isSameTree(TreeNode* left, TreeNode* right) {
-        if (!left && !right) return true;
-        if (!left || !right || left->val != right->val) return false;
-        return isSameTree(left->left, right->left) && isSameTree(left->right, right->right);
+        vector<TreeNode*> st = {left, right};
+        while (!st.empty()) {
+            TreeNode* right = st.back(); st.pop_back();
+            TreeNode* left = st.back(); st.pop_back();
+            if (!left && !right) continue;
+            if (!left || !right || left->val != right->val) return false;
+            st.push_back(left->left);
+            st.push_back(right->left);
+            st.push_back(left->right);
+            st.push_back(right->right);
+        }
+        return st.empty();
     }
 };
 // @lc code=end
