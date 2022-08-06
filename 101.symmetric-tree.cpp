@@ -16,8 +16,6 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-//#include <queue>
-//using std::vector;
 //struct TreeNode {
 //    int val;
 //    TreeNode *left;
@@ -31,21 +29,16 @@ class Solution {
 public:
     bool isSymmetric(TreeNode* root) {
         if (!root) return true;
-        vector<TreeNode*> st = {root->left, root->right}; 
-        while (!st.empty()) {
-            TreeNode* right = st.back();
-            st.pop_back();
-            TreeNode* left = st.back();
-            st.pop_back();
-            if (!left && !right) continue;
-            if (!left || !right || left->val != right->val) return false;
-            st.push_back(left->left);
-            st.push_back(right->right);
-            st.push_back(left->right);
-            st.push_back(right->left);
-        }
-        return st.empty();
+        return isSymmetric(root->left, root->right);
     }
+
+private:
+    bool isSymmetric(TreeNode* left, TreeNode* right) {
+        if (!left && !right) return true;
+        if (!left || !right || (left->val != right->val)) return false;
+       return isSymmetric(left->left, right->right) && isSymmetric(left->right, right->left);
+    }
+    
 };
 // @lc code=end
 
