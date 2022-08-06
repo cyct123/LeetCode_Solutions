@@ -19,7 +19,6 @@
 //#include <queue>
 //using std::queue;
 //
-//
 //struct TreeNode {
 //    int val;
 //    TreeNode *left;
@@ -37,10 +36,16 @@ public:
         queue<TreeNode*> q;
         q.push(root);
         while (!q.empty()) {
-            TreeNode* cur = q.front(); q.pop();
-            ++count;
-            if(cur->left) q.push(cur->left);
-            if(cur->right) q.push(cur->right);
+            int size = q.size();
+            if (size != count + 1)
+                return count + size;
+            count += size;
+            for (int i = 0; i != size; ++i) {
+                TreeNode* cur = q.front();
+                q.pop();
+                if (cur->left) q.push(cur->left);
+                if (cur->right) q.push(cur->right);
+            }
         }
         return count;
     }
