@@ -38,8 +38,7 @@ public:
             TreeNode* left = st.back();
             st.pop_back();
             if (!left && !right) continue;
-            if ((!left && right) || (left && !right)) return false;
-            if (left && right && left->val != right->val) return false;
+            if (!left || !right || left->val != right->val) return false;
             st.push_back(left->left);
             st.push_back(right->right);
             st.push_back(left->right);
