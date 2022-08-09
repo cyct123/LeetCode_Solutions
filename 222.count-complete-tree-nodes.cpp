@@ -31,23 +31,21 @@
 class Solution {
 public:
     int countNodes(TreeNode* root) {
-        int count = 0;
-        if (!root) return count;        
-        queue<TreeNode*> q;
-        q.push(root);
-        while (!q.empty()) {
-            int size = q.size();
-            if (size != count + 1)
-                return count + size;
-            count += size;
-            for (int i = 0; i != size; ++i) {
-                TreeNode* cur = q.front();
-                q.pop();
-                if (cur->left) q.push(cur->left);
-                if (cur->right) q.push(cur->right);
-            }
+        if (!root) return 0;
+        int leftHeight = 0;
+        int rightHeight = 0;
+        TreeNode* leftNode = root->left;
+        TreeNode* rightNode = root->right;
+        while (leftNode) {
+            ++leftHeight;
+            leftNode = leftNode->left;   
         }
-        return count;
+        while (rightNode) {
+            ++rightHeight;
+            rightNode = rightNode->right;
+        }
+        if (leftHeight == rightHeight) return (2 << leftHeight) - 1;
+        return 1 + countNodes(root->left) + countNodes(root->right);
     }
 };
 // @lc code=end
