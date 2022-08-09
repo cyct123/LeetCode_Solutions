@@ -21,6 +21,8 @@
 //#include <string>
 //using std::string;
 //using std::to_string;
+//#include <stack>
+//using std::stack;
 //
 //
 //struct TreeNode {
@@ -36,20 +38,26 @@ class Solution {
 public:
     vector<string> binaryTreePaths(TreeNode* root) {
         vector<string> res;
+        stack<TreeNode*> treeSt;
+        stack<string> pathSt;
         if (!root) return res;
-        string path;
-        traversal(root, path, res);
-        return res;
-    }
-private:
-    void traversal(TreeNode* cur, string path, vector<string>& res) {
-        path += to_string(cur->val);
-        if (!cur->left && !cur->right) {
-            res.push_back(path);
-            return;
+        treeSt.push(root);
+        pathSt.push(to_string(root->val));
+        while (!treeSt.empty()) {
+            TreeNode* curNode = treeSt.top(); treeSt.pop();
+            string curPath = pathSt.top(); pathSt.pop();
+            if (!curNode->left && !curNode->right)
+                res.push_back(curPath);
+            if (curNode->right) {
+                treeSt.push(curNode->right);
+                pathSt.push(curPath + "->" + to_string(curNode->right->val));
+            }
+            if (curNode->left) {
+                treeSt.push(curNode->left);
+                pathSt.push(curPath + "->" + to_string(curNode->left->val));
+            } 
         }
-        if (cur->left) traversal(cur->left, path + "->", res);
-        if (cur->right) traversal(cur->right, path + "->", res);
+        return res;
     }
     
 };
