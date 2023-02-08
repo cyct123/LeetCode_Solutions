@@ -52,10 +52,16 @@ from typing import List
 # @lc code=start
 class Solution:
     def sortArray(self, nums: List[int]) -> List[int]:
-        for i in range(1, len(nums)):
-            for j in range(i):
-                if nums[i] < nums[j]:
-                    nums[j], nums[i] = nums[i], nums[j]
+        gap = len(nums) // 2
+        while gap:
+            for i in range(gap, len(nums)):
+                temp = nums[i]
+                j = i
+                while j >= gap and nums[j-gap] > temp:
+                    nums[j] = nums[j-gap]
+                    j -= gap
+                nums[j] = temp
+            gap //= 2
         return nums
 
 
