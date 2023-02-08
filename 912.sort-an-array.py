@@ -52,17 +52,33 @@ from typing import List
 # @lc code=start
 class Solution:
     def sortArray(self, nums: List[int]) -> List[int]:
-        gap = len(nums) // 2
-        while gap:
-            for i in range(gap, len(nums)):
-                temp = nums[i]
-                j = i
-                while j >= gap and nums[j-gap] > temp:
-                    nums[j] = nums[j-gap]
-                    j -= gap
-                nums[j] = temp
-            gap //= 2
-        return nums
+        return self.mergeSort(nums)
+
+    def mergeSort(self, nums: List[int]) -> List[int]:
+        if len(nums) == 1:
+            return nums
+        mid = len(nums) // 2
+        left = self.mergeSort(nums[:mid])
+        right = self.mergeSort(nums[mid:])
+        return self.merge(left, right)
+
+    def merge(self, left: List[int], right: List[int]):
+        i, j = 0, 0
+        ret = []
+        while i != len(left) and j != len(right):
+            if left[i] <= right[j]:
+                ret.append(left[i])
+                i += 1
+            else:
+                ret.append(right[j])
+                j += 1
+        while i != len(left):
+            ret.append(left[i])
+            i += 1
+        while j != len(right):
+            ret.append(right[j])
+            j += 1
+        return ret
 
 
 # @lc code=end
