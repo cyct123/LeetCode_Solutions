@@ -52,10 +52,13 @@ from typing import List
 # @lc code=start
 class Solution:
     def sortArray(self, nums: List[int]) -> List[int]:
-        for i in range(len(nums)):
-            for j in range(1, len(nums) - i):
-                if nums[j] < nums[j-1]:
-                    nums[j], nums[j-1] = nums[j-1], nums[j]
+        for i in range(len(nums)-1):
+            min_index = i
+            for j in range(i+1, len(nums)):
+                if nums[min_index] > nums[j]:
+                    min_index = j
+            if min_index != i:
+                nums[i], nums[min_index] = nums[min_index], nums[i]
         return nums
 
 # @lc code=end
