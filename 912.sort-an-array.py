@@ -49,37 +49,41 @@
 #
 
 from typing import List
-import random
 # @lc code=start
 class Solution:
     def sortArray(self, nums: List[int]) -> List[int]:
-        self.quickSort(nums, 0, len(nums) - 1)
+        self.maxHeapSort(nums)
         return nums
 
-    def quickSort(self, nums: List[int], start: int, end:int):
-        if start < end:
-            pivot_index = self.randomPartition(nums, start, end)
-            self.quickSort(nums, start, pivot_index - 1)
-            self.quickSort(nums, pivot_index + 1, end)
-        return nums
+    def maxHeapSort(self, nums: List[int]):
+        self.buildMaxHeap(nums)
+        for i in range(len(nums)-1):
+            nums[0], nums[len(nums) - 1 - i] = nums[len(nums) - 1 - i], nums[0]
+            self.heapify(nums, 0, len(nums) - 2 - i)
 
-    def randomPartition(self, nums: List[int], start: int, end: int) -> int:
-        i = random.randint(start, end)
-        nums[i], nums[start] = nums[start], nums[i]
-        return self.partition(nums, start, end)
+    def buildMaxHeap(self, nums:List[int]):
+        for i in range(len(nums) // 2, -1, -1):
+            self.heapify(nums, i, len(nums)-1)
 
-    def partition(self, nums: List[int], start: int, end: int) -> int:
-        pivot = nums[start]
-        i = start + 1
-        for j in range(i, end+1):
-            if nums[j] < pivot:
-                nums[j], nums[i] = nums[i], nums[j]
-                i += 1
-        nums[start], nums[i-1] = nums[i-1], nums[start]
-        return i - 1
-
-
-
+    def heapify(self, nums: List[int], index: int, end: int):
+        left_index = index * 2 + 1
+        right_index = left_index + 1
+        while left_index <= end:
+            max_index = index
+            if nums[left_index] > nums[max_index]:
+                max_index = left_index
+            if right_index <= end and nums[right_index] > nums[max_index]:
+                max_index = right_index
+            if max_index == index:
+                break
+            nums[index], nums[max_index] = nums[max_index], nums[index]
+            index = max_index
+            left_index = index * 2 + 1
+            right_index = left_index + 1
 
 # @lc code=end
+
+if __name__ == "__main__":
+    nums = [-4,0,7,4,9,-5,-1,0,-7,-1]
+    print(Solution().sortArray(nums))
 
