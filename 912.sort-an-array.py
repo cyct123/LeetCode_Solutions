@@ -49,36 +49,36 @@
 #
 
 from typing import List
+import random
 # @lc code=start
 class Solution:
     def sortArray(self, nums: List[int]) -> List[int]:
-        return self.mergeSort(nums)
+        self.quickSort(nums, 0, len(nums) - 1)
+        return nums
 
-    def mergeSort(self, nums: List[int]) -> List[int]:
-        if len(nums) == 1:
-            return nums
-        mid = len(nums) // 2
-        left = self.mergeSort(nums[:mid])
-        right = self.mergeSort(nums[mid:])
-        return self.merge(left, right)
+    def quickSort(self, nums: List[int], start: int, end:int):
+        if start < end:
+            pivot_index = self.randomPartition(nums, start, end)
+            self.quickSort(nums, start, pivot_index - 1)
+            self.quickSort(nums, pivot_index + 1, end)
+        return nums
 
-    def merge(self, left: List[int], right: List[int]):
-        i, j = 0, 0
-        ret = []
-        while i != len(left) and j != len(right):
-            if left[i] <= right[j]:
-                ret.append(left[i])
+    def randomPartition(self, nums: List[int], start: int, end: int) -> int:
+        i = random.randint(start, end)
+        nums[i], nums[start] = nums[start], nums[i]
+        return self.partition(nums, start, end)
+
+    def partition(self, nums: List[int], start: int, end: int) -> int:
+        pivot = nums[start]
+        i = start + 1
+        for j in range(i, end+1):
+            if nums[j] < pivot:
+                nums[j], nums[i] = nums[i], nums[j]
                 i += 1
-            else:
-                ret.append(right[j])
-                j += 1
-        while i != len(left):
-            ret.append(left[i])
-            i += 1
-        while j != len(right):
-            ret.append(right[j])
-            j += 1
-        return ret
+        nums[start], nums[i-1] = nums[i-1], nums[start]
+        return i - 1
+
+
 
 
 # @lc code=end
