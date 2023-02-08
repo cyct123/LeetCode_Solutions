@@ -33,45 +33,39 @@
 # You may assume k is always valid, 1 ≤ k ≤ array's length.
 #
 #
+from typing import List
 
 # @lc code=start
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
         heap = nums[:k]
-        for i in range(k):
+        for i in range(1, k):
             while i:
-                if i % 2 == 0:
-                    root = i // 2 - 1
-                else:
+                if i % 2:
                     root = i // 2
-                if heap[i] < heap[root]:
-                    heap[i], heap[root] = heap[root], heap[i]
+                else:
+                    root = i // 2 - 1
+                if heap[root] > heap[i]:
+                    heap[root], heap[i] = heap[i], heap[root]
                 i = root
         for i in range(k, len(nums)):
-            num = nums[i]
-            if num > heap[0]:
-                heap[0] = num
-                start = 0
-                while start < k // 2:
-                    left = 2 * start + 1
-                    right = 2 * (start + 1)
-                    if right >= k or heap[left] <= heap[right]:
-                        if heap[start] > heap[left]:
-                            heap[start], heap[left] = heap[left], heap[start]
-                            start = left
-                            continue
-                        else:
-                            break
-                    if right >= k or heap[left] > heap[right]:
-                        if heap[start] > heap[right]:
-                            heap[start], heap[right] = heap[right], heap[start]
-                            start = right
-                            continue
-                        else:
-                            break
+            if nums[i] > heap[0]:
+                heap[0] = nums[i]
+                index = 0
+                left_index = index * 2 + 1
+                right_index = left_index + 1
+                while left_index <= k - 1:
+                    min_index = index
+                    if heap[left_index] < heap[min_index]:
+                        min_index = left_index
+                    if right_index <= k - 1 and heap[right_index] < heap[min_index]:
+                        min_index = right_index
+                    if min_index == index:
+                        break
+                    heap[min_index], heap[index] = heap[index], heap[min_index]
+                    index = min_index
+                    left_index = index * 2 + 1
+                    right_index = left_index + 1
         return heap[0]
-
-
-
 # @lc code=end
 
