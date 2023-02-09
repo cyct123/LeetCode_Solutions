@@ -33,16 +33,23 @@
 #
 #
 #
+from typing import List
+
 
 # @lc code=start
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
-        d = {}
+        ret = nums[0]
+        count = 0
         for num in nums:
-            count = d.get(num, 0)
-            count += 1
-            if count >= len(nums) / 2:
-                return num
-            d[num] = count
-# @lc code=end
+            if ret != num:
+                count -= 1
+                if not count:
+                    ret = num
+                    count += 1
+            else:
+                count += 1
+        return ret
 
+
+# @lc code=end
