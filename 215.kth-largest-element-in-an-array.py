@@ -34,38 +34,38 @@
 #
 #
 from typing import List
+from random import randint
 
 # @lc code=start
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
-        heap = nums[:k]
-        for i in range(1, k):
-            while i:
-                if i % 2:
-                    root = i // 2
-                else:
-                    root = i // 2 - 1
-                if heap[root] > heap[i]:
-                    heap[root], heap[i] = heap[i], heap[root]
-                i = root
-        for i in range(k, len(nums)):
-            if nums[i] > heap[0]:
-                heap[0] = nums[i]
-                index = 0
-                left_index = index * 2 + 1
-                right_index = left_index + 1
-                while left_index <= k - 1:
-                    min_index = index
-                    if heap[left_index] < heap[min_index]:
-                        min_index = left_index
-                    if right_index <= k - 1 and heap[right_index] < heap[min_index]:
-                        min_index = right_index
-                    if min_index == index:
-                        break
-                    heap[min_index], heap[index] = heap[index], heap[min_index]
-                    index = min_index
-                    left_index = index * 2 + 1
-                    right_index = left_index + 1
-        return heap[0]
+        return self.quickStort(nums, 0, len(nums)-1, len(nums)-k)
+
+    def quickStort(self, nums: List[int], low: int, high: int, index: int) -> int:
+        if low < high:
+            pi = self.randomPartition(nums, low, high)
+            if pi == index:
+                return nums[pi]
+            elif pi > index:
+                return self.quickStort(nums, low, pi - 1, index)
+            else:
+                return self.quickStort(nums, pi + 1, high, index)
+
+
+    def randomPartition(self, nums: List[int], low: int, high: int) -> int:
+        pi = randint(low, high)
+        nums[low], nums[pi] = nums[pi], nums[low]
+        return self.partition(nums, low, high)
+
+    def partition(self, nums: List[int], low: int, high: int) -> int:
+        pivot = nums[low]
+        i = low + 1
+        for j in range(i, high+1):
+            if nums[j] < pivot:
+                nums[j], nums[i] = nums[i], nums[j]
+                i += 1
+        nums[low], nums[i-1] = nums[i-1], nums[low]
+        return i - 1
+
 # @lc code=end
 
