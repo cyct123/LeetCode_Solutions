@@ -33,25 +33,32 @@
 # Output: [-1,-1]
 #
 #
+from typing import List
+
 
 # @lc code=start
 class Solution:
     def searchRange(self, nums: List[int], target: int) -> List[int]:
         low, high = 0, len(nums) - 1
+        index = -1
         while low <= high:
             mid = low + (high - low) // 2
-            if nums[mid] < target:
+            if nums[mid] == target:
+                index = mid
+                break
+            elif nums[mid] < target:
                 low = mid + 1
-            elif nums[mid] > target:
-                high = mid - 1
             else:
-                i = j = mid
-                while i > 0 and nums[i-1] == target:
-                    i -= 1
-                while j < len(nums) - 1 and nums[j+1] == target:
-                    j += 1
-                return [i, j]
-        return [-1, -1]
+                high = mid - 1
+        if index == -1:
+            return [-1, -1]
+        i = index
+        while i >= 0 and nums[i] == target:
+            i -= 1
+        j = index
+        while j != len(nums) and nums[j] == target:
+            j += 1
+        return [i + 1, j - 1]
+
 
 # @lc code=end
-
