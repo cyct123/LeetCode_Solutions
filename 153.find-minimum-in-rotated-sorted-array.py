@@ -37,16 +37,20 @@
 #
 #
 #
+from typing import List
+
 
 # @lc code=start
 class Solution:
     def findMin(self, nums: List[int]) -> int:
-        prev = None
-        for num in nums:
-            if prev and prev > num:
-                return num
-            prev = num
-        return nums[0]
+        low, high = 0, len(nums) - 1
+        while low < high:
+            mid = low + (high - low) // 2
+            if nums[mid] > nums[high]:
+                low = mid + 1
+            else:
+                high = mid
+        return nums[low]
+
 
 # @lc code=end
-
