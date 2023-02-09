@@ -3,10 +3,10 @@
  *
  * [704] Binary Search
  */
+#include <vector>
+using std::vector;
 
 // @lc code=start
-//#include <vector>
-//using std::vector;
 class Solution {
 public:
     int search(vector<int>& nums, int target) {
