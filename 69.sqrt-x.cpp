@@ -3,7 +3,7 @@
  *
  * [69] Sqrt(x)
  */
-
+#include <iostream>
 // @lc code=start
 class Solution {
 public:
@@ -26,3 +26,8 @@ public:
 };
 // @lc code=end
 
+int main() {
+    int x = 2;
+    Solution s = Solution();
+    std::cout << s.mySqrt(x) << std::endl;
+}
