@@ -57,21 +57,18 @@
 class Solution:
     def addStrings(self, num1: str, num2: str) -> str:
         ret = []
+        i = len(num1) - 1
+        j = len(num2) - 1
         carry = 0
-        for i in range(-1, max(len(num1), len(num2)) * -1 - 1, -1):
-            if -i <= min(len(num1), len(num2)):
-                num = int(num1[i]) + int(num2[i]) + carry
-            else:
-                num = (
-                    int(num1[i]) + carry
-                    if len(num1) > len(num2)
-                    else int(num2[i]) + carry
-                )
+        while carry or i >= 0 or j >= 0:
+            n1 = int(num1[i]) if i >= 0 else 0
+            n2 = int(num2[j]) if j >= 0 else 0
+            i -= 1
+            j -= 1
+            num = n1 + n2 + carry
             carry = num // 10
             ret.append(str(num % 10))
-        if carry:
-            ret.append("1")
-        return "".join(reversed(ret))
+        return "".join(ret[::-1])
 
 
 # @lc code=end
