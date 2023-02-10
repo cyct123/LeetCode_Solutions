@@ -40,29 +40,28 @@
 # Given target = 20, return false.
 #
 #
+from typing import List
+
 
 # @lc code=start
 class Solution:
-    def searchMatrix(self, matrix, target):
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
         """
         :type matrix: List[List[int]]
         :type target: int
         :rtype: bool
         """
-        m = len(matrix)
-        if not m:
+        if not matrix:
             return False
-        n = len(matrix[0])
-        row, col = 0, n - 1
-        while (row < m) and (col >= 0):
-            num = matrix[row][col]
-            if num == target:
+        row, col = 0, len(matrix[0]) - 1
+        while row < len(matrix) and col >= 0:
+            if matrix[row][col] == target:
                 return True
-            elif num < target:
+            elif matrix[row][col] < target:
                 row += 1
             else:
                 col -= 1
         return False
 
-# @lc code=end
 
+# @lc code=end
