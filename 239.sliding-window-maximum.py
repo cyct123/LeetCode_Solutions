@@ -42,7 +42,7 @@
 # Follow up:
 # Could you solve it in linear time?
 #
-
+from typing import List
 # @lc code=start
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
@@ -51,17 +51,21 @@ class Solution:
             return maxValues
         maxValue = max(nums[:k])
         maxValues.append(maxValue)
-        prevHead = 0
-        newEnd = k
-        while newEnd < len(nums):
-            if nums[prevHead] == maxValue:
-                maxValue = max(nums[prevHead+1: newEnd+1])
-            elif nums[newEnd] > maxValue:
-                maxValue = nums[newEnd]
+        prevLeft = 0
+        right = k
+        while right != len(nums):
+            if nums[prevLeft] == maxValue:
+                maxValue = max(nums[prevLeft+1: right+1])
+            elif nums[right] > maxValue:
+                maxValue = nums[right]
             maxValues.append(maxValue)
-            prevHead += 1
-            newEnd += 1
+            prevLeft += 1
+            right += 1
         return maxValues
 
 # @lc code=end
+if __name__ == "__main__":
+    nums = [1,3,-1,-3,5,3,6,7]
+    k = 3
+    print(Solution().maxSlidingWindow(nums, k))
 
