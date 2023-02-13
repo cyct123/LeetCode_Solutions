@@ -51,7 +51,7 @@
 # (i.e. constant space)?
 #
 #
-from typing import Optional
+from typing import Optional, Tuple
 
 
 class ListNode:
@@ -68,27 +68,36 @@ class ListNode:
 #         self.next = next
 class Solution:
     def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        newHead = ListNode()
-        newCur = newHead
-        dummyNode = ListNode()
-        dummyNode.next = head
-        while dummyNode.next:
-            curNode = dummyNode.next
-            prevNode = dummyNode
-            node = curNode
-            prevMin = prevNode
-            minNode = curNode
-            while node:
-                if minNode.val > node.val:
-                    minNode = node
-                    prevMin = prevNode
-                prevNode = prevNode.next
-                node = node.next
-            prevMin.next = minNode.next
-            newCur.next = minNode
-            minNode.next = None
-            newCur = newCur.next
-        return newHead.next
+        return self.mergeSort(head)
+
+    def mergeSort(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        pass
+
+    def splitList(
+        self, head: Optional[ListNode]
+    ) -> Tuple[Optional[ListNode], Optional[ListNode]]:
+        left = ListNode()
+        right = ListNode()
+        cur = head
+        length = 0
+        while cur:
+            length += 1
+            cur = cur.next
+        cur = head
+        leftCur = left
+        rightCur = right
+        for i in range(length):
+            if i <= length // 2:
+                leftCur.next = cur
+                cur = cur.next
+                leftCur.next.next = None
+                leftCur = leftCur.next
+            else:
+                rightCur.next = cur
+                cur = cur.next
+                rightCur.next.next = None
+                rightCur = rightCur.next
+        return left.next, right.next
 
 
 # @lc code=end
