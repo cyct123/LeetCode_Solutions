@@ -80,6 +80,11 @@
 #
 #
 #
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
 
 # @lc code=start
 # Definition for singly-linked list.
@@ -88,32 +93,36 @@
 #         self.val = x
 #         self.next = None
 
+
 class Solution:
     def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
         curA = headA
         curB = headB
-        lenA = lenB = 0
+        lenA = 0
+        lenB = 0
         while curA:
             lenA += 1
             curA = curA.next
         while curB:
             lenB += 1
             curB = curB.next
-        if lenA > lenB:
+
+        if lenA >= lenB:
             diff = lenA - lenB
-            for _ in range(diff):
-                headA = headA.next
-            while headA != headB:
-                headA = headA.next
-                headB = headB.next
+            curLong = headA
+            curShort = headB
         else:
             diff = lenB - lenA
-            for _ in range(diff):
-                headB = headB.next
-            while headA != headB:
-                headA = headA.next
-                headB = headB.next
-        return headA
+            curLong = headB
+            curShort = headA
+        for _ in range(diff):
+            curLong = curLong.next
+        while curLong and curShort:
+            if curLong == curShort:
+                return curLong
+            curLong = curLong.next
+            curShort = curShort.next
+        return None
+
 
 # @lc code=end
-
