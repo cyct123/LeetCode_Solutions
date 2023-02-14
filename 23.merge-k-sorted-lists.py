@@ -30,13 +30,23 @@
 #
 #
 
+import heapq
+from typing import List
+
+
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
-import heapq
+
 
 class Solution:
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
@@ -55,5 +65,6 @@ class Solution:
             if nextNode:
                 heapq.heappush(hq, (nextNode.val, nextNode))
         return head.next
-# @lc code=end
 
+
+# @lc code=end
