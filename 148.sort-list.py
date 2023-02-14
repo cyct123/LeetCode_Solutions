@@ -51,7 +51,7 @@
 # (i.e. constant space)?
 #
 #
-from typing import Optional, Tuple
+from typing import Optional
 
 
 class ListNode:
@@ -71,33 +71,36 @@ class Solution:
         return self.mergeSort(head)
 
     def mergeSort(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        pass
+        if not head or not head.next:
+            return head
+        slow, fast = head, head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
 
-    def splitList(
-        self, head: Optional[ListNode]
-    ) -> Tuple[Optional[ListNode], Optional[ListNode]]:
-        left = ListNode()
-        right = ListNode()
-        cur = head
-        length = 0
-        while cur:
-            length += 1
-            cur = cur.next
-        cur = head
-        leftCur = left
-        rightCur = right
-        for i in range(length):
-            if i <= length // 2:
-                leftCur.next = cur
-                cur = cur.next
-                leftCur.next.next = None
-                leftCur = leftCur.next
+        leftHead, rightHead = head, slow.next
+        slow.next = None
+        return self.merge(self.mergeSort(leftHead), self.mergeSort(rightHead))
+
+    def merge(
+        self, left: Optional[ListNode], right: Optional[ListNode]
+    ) -> Optional[ListNode]:
+        dummy = ListNode()
+        prev = dummy
+        while left and right:
+            if left.val <= right.val:
+                prev.next = left
+                left = left.next
             else:
-                rightCur.next = cur
-                cur = cur.next
-                rightCur.next.next = None
-                rightCur = rightCur.next
-        return left.next, right.next
+                prev.next = right
+                right = right.next
+            prev.next.next = None
+            prev = prev.next
+        if left:
+            prev.next = left
+        if right:
+            prev.next = right
+        return dummy.next
 
 
 # @lc code=end
