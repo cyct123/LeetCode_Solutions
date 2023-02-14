@@ -3,6 +3,12 @@
  *
  * [142] Linked List Cycle II
  */
+#include <cstddef>
+struct ListNode{
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
 
 // @lc code=start
 /**
@@ -13,12 +19,6 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
-//#include <cstddef>
-//struct ListNode{
-//    int val;
-//    ListNode *next;
-//    ListNode(int x) : val(x), next(NULL) {}
-//};
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
