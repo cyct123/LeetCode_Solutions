@@ -28,27 +28,29 @@
 #
 #
 #
+from typing import List
+
 
 # @lc code=start
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
         maxLen = 0
-        num = set(nums)
-        while num:
-            n = num.pop()
-            lenLeft = lenRight = 0
-            i = n + 1
-            while i in num:
-                num.remove(i)
-                lenRight += 1
-                i += 1
-            i = n - 1
-            while i in num:
-                num.remove(i)
-                lenLeft += 1
-                i -= 1
-            maxLen = max(maxLen, lenLeft + lenRight + 1)
+        numSet = set(nums)
+        while numSet:
+            curLen = 1
+            num = numSet.pop()
+            left = num - 1
+            right = num + 1
+            while left in numSet:
+                curLen += 1
+                numSet.remove(left)
+                left = left - 1
+            while right in numSet:
+                curLen += 1
+                numSet.remove(right)
+                right = right + 1
+            maxLen = curLen if curLen > maxLen else maxLen
         return maxLen
 
-# @lc code=end
 
+# @lc code=end
