@@ -6,22 +6,20 @@
 # https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/
 #
 # algorithms
-# Medium (42.23%)
-# Likes:    2930
-# Dislikes: 160
-# Total Accepted:    392.3K
-# Total Submissions: 922.6K
+# Medium (58.51%)
+# Likes:    13484
+# Dislikes: 324
+# Total Accepted:    1.3M
+# Total Submissions: 2.1M
 # Testcase Example:  '[3,5,1,6,2,0,8,null,null,7,4]\n5\n1'
 #
 # Given a binary tree, find the lowest common ancestor (LCA) of two given nodes
 # in the tree.
 #
 # According to the definition of LCA on Wikipedia: “The lowest common ancestor
-# is defined between two nodes p and q as the lowest node in T that has both p
-# and q as descendants (where we allow a node to be a descendant of itself).”
-#
-# Given the following binary tree:  root = [3,5,1,6,2,0,8,null,null,7,4]
-#
+# is defined between two nodes p and q as the lowest node in T that has both p
+# and q as descendants (where we allow a node to be a descendant of
+# itself).”
 #
 #
 # Example 1:
@@ -41,16 +39,31 @@
 # of itself according to the LCA definition.
 #
 #
+# Example 3:
 #
 #
-# Note:
-#
-#
-# All of the nodes' values will be unique.
-# p and q are different and both values will exist in the binary tree.
+# Input: root = [1,2], p = 1, q = 2
+# Output: 1
 #
 #
 #
+# Constraints:
+#
+#
+# The number of nodes in the tree is in the range [2, 10^5].
+# -10^9 <= Node.val <= 10^9
+# All Node.val are unique.
+# p != q
+# p and q will exist in the tree.
+#
+#
+#
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 
 # @lc code=start
 # Definition for a binary tree node.
@@ -60,15 +73,23 @@
 #         self.left = None
 #         self.right = None
 
+
 class Solution:
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+    def lowestCommonAncestor(
+        self, root: TreeNode, p: TreeNode, q: TreeNode
+    ) -> TreeNode:
         if not root or root == p or root == q:
             return root
-        leftNode = self.lowestCommonAncestor(root.left, p, q)
-        rightNode = self.lowestCommonAncestor(root.right, p, q)
-        if leftNode and rightNode:
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+        if left and right:
             return root
-        return leftNode or rightNode
+        elif not left:
+            return right
+        elif not right:
+            return left
+        else:
+            return None
+
 
 # @lc code=end
-
