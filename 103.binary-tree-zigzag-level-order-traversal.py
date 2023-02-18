@@ -39,6 +39,16 @@
 #
 #
 #
+from collections import deque
+from typing import List
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 
 # @lc code=start
 # Definition for a binary tree node.
@@ -48,31 +58,30 @@
 #         self.left = None
 #         self.right = None
 
+
 class Solution:
     def zigzagLevelOrder(self, root: TreeNode) -> List[List[int]]:
-        nums = []
+        res = []
         if not root:
-            return nums
-        stack = [[root]]
-        i = 0
-        while stack:
-            vals = []
-            children = []
-            nodes = stack.pop()
-            for node in nodes:
-                vals.append(node.val)
+            return res
+        queue = deque([root])
+        reverse = False
+        while queue:
+            curLen = len(queue)
+            nums = []
+            for _ in range(curLen):
+                node = queue.popleft()
                 if node.left:
-                    children.append(node.left)
+                    queue.append(node.left)
                 if node.right:
-                    children.append(node.right)
-            if children:
-                stack.append(children)
-            if vals:
-                if i % 2 == 1:
-                    nums.append(vals[::-1])
-                else:
-                    nums.append(vals)
-            i += 1
-        return nums
-# @lc code=end
+                    queue.append(node.right)
+                nums.append(node.val)
+            if not reverse:
+                res.append(nums)
+            else:
+                res.append(nums[::-1])
+            reverse = not reverse
+        return res
 
+
+# @lc code=end
