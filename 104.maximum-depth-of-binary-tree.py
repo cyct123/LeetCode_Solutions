@@ -34,6 +34,15 @@
 # return its depth = 3.
 #
 #
+from collections import deque
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 
 # @lc code=start
 # Definition for a binary tree node.
@@ -43,24 +52,28 @@
 #         self.left = None
 #         self.right = None
 
-#iterative solution
+
+# iterative solution
 class Solution:
     def maxDepth(self, root: TreeNode) -> int:
         if not root:
             return 0
-        stack, depth = [(root, 1)], 0
-        while stack:
-            node, curDepth = stack.pop()
-            if node:
-                depth = max(depth, curDepth)
-                if node.right:
-                    stack.append((node.right, curDepth+1))
+        depth = 0
+        queue = deque([root])
+        while queue:
+            depth += 1
+            curLen = len(queue)
+            for _ in range(curLen):
+                node = queue.popleft()
                 if node.left:
-                    stack.append((node.left, curDepth+1))
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
         return depth
 
 
 # @lc code=end
+
 
 # recursive solution
 class recursiveSolution:
