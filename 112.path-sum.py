@@ -35,6 +35,15 @@
 # return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
 #
 #
+from collections import deque
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 
 # @lc code=start
 # Definition for a binary tree node.
@@ -44,7 +53,27 @@
 #         self.left = None
 #         self.right = None
 
+
 class Solution:
+    def hasPathSum(self, root: TreeNode, sum: int) -> bool:
+        if not root:
+            return False
+        queue = deque([(root, root.val)])
+        while queue:
+            node, total = queue.popleft()
+            if not node.left and not node.right and total == sum:
+                return True
+            if node.left:
+                queue.append((node.left, total + node.left.val))
+            if node.right:
+                queue.append((node.right, total + node.right.val))
+        return False
+
+
+# @lc code=end
+
+
+class RecursiveSolution:
     def hasPathSum(self, root: TreeNode, sum: int) -> bool:
         if not root:
             return False
@@ -53,7 +82,22 @@ class Solution:
                 return False
             else:
                 return True
-        return self.hasPathSum(root.left, sum - root.val) or self.hasPathSum(root.right, sum - root.val)
+        return self.hasPathSum(root.left, sum - root.val) or self.hasPathSum(
+            root.right, sum - root.val
+        )
 
-# @lc code=end
 
+class StackIterasiveSolution:
+    def hasPathSum(self, root: TreeNode, sum: int) -> bool:
+        if not root:
+            return False
+        stack = [(root, root.val)]
+        while stack:
+            node, total = stack.pop()
+            if not node.left and not node.right and total == sum:
+                return True
+            if node.left:
+                stack.append((node.left, total + node.left.val))
+            if node.right:
+                stack.append((node.right, total + node.right.val))
+        return False
