@@ -38,6 +38,16 @@
 #
 #
 #
+from collections import deque
+from typing import List
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 
 # @lc code=start
 # Definition for a binary tree node.
@@ -47,29 +57,25 @@
 #         self.left = None
 #         self.right = None
 
+
 class Solution:
     def levelOrder(self, root: TreeNode) -> List[List[int]]:
-        stack = []
-        nums = []
+        res = []
         if not root:
-            return nums
-        stack.append([root])
-        while stack:
-            nodes = stack.pop()
-            children = []
-            vals = []
-            for node in nodes:
-                vals.append(node.val)
+            return res
+        queue = deque([root])
+        while queue:
+            curLen = len(queue)
+            nums = []
+            for _ in range(curLen):
+                node = queue.popleft()
                 if node.left:
-                    children.append(node.left)
+                    queue.append(node.left)
                 if node.right:
-                    children.append(node.right)
-            if children:
-                stack.append(children)
-            if vals:
-                nums.append(vals)
-        return nums
+                    queue.append(node.right)
+                nums.append(node.val)
+            res.append(nums)
+        return res
 
 
 # @lc code=end
-
