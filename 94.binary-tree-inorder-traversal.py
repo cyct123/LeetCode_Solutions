@@ -30,6 +30,15 @@
 # Follow up: Recursive solution is trivial, could you do it iteratively?
 #
 #
+from typing import List
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 
 # @lc code=start
 # Definition for a binary tree node.
@@ -38,6 +47,7 @@
 #         self.val = x
 #         self.left = None
 #         self.right = None
+
 
 # iterative solutioon
 class Solution:
@@ -54,7 +64,9 @@ class Solution:
                 root = node.right
         return vals
 
+
 # @lc code=end
+
 
 class recursiveSolution:
     def inorderTraversal(self, root: TreeNode) -> List[int]:
