@@ -42,6 +42,12 @@
 # can’t invert a binary tree on a whiteboard so f*** off.
 #
 #
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 
 # @lc code=start
 # Definition for a binary tree node.
@@ -50,6 +56,7 @@
 #         self.val = x
 #         self.left = None
 #         self.right = None
+
 
 class Solution:
     def invertTree(self, root: TreeNode) -> TreeNode:
@@ -60,5 +67,5 @@ class Solution:
         new.right = self.invertTree(root.left)
         return new
 
-# @lc code=end
 
+# @lc code=end
