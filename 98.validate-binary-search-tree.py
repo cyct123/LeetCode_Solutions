@@ -53,6 +53,12 @@
 #
 #
 #
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 
 # @lc code=start
 # Definition for a binary tree node.
@@ -61,6 +67,7 @@
 #         self.val = x
 #         self.left = None
 #         self.right = None
+
 
 # recursive solution
 class Solution:
@@ -71,7 +78,10 @@ class Solution:
             if root.val <= min or root.val >= max:
                 return False
             return isBST(root.left, min, root.val) and isBST(root.right, root.val, max)
-        return isBST(root, float('-inf'), float('inf'))
+
+        return isBST(root, float("-inf"), float("inf"))
+
+
 # @lc code=end
 # iterative solution
 class iterativeSolution:
@@ -89,5 +99,3 @@ class iterativeSolution:
                 vals.append(node.val)
                 root = node.right
         return True
-
-

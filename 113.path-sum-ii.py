@@ -42,6 +42,15 @@
 #
 #
 #
+from typing import List
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 
 # @lc code=start
 # Definition for a binary tree node.
@@ -51,8 +60,8 @@
 #         self.left = None
 #         self.right = None
 
-class Solution:
 
+class Solution:
     def __init__(self):
         self.stack = []
         self.res = []
@@ -69,5 +78,5 @@ class Solution:
         self.stack.pop()
         return self.res
 
-# @lc code=end
 
+# @lc code=end
