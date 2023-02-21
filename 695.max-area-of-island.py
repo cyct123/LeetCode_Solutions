@@ -44,39 +44,29 @@
 # Note: The length of each dimension in the given grid does not exceed 50.
 #
 #
+from typing import List
+
 
 # @lc code=start
 class Solution:
     def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
-        m = len(grid)
-        if not m:
-            return 0
-        n = len(grid[0])
-        if not n:
-            return 0
         maxArea = 0
-        for i in range(m):
-            for j in range(n):
-                if not grid[i][j]:
-                    continue
-                curArea = 0
-                stack = [(i, j)]
-                while stack:
-                    row, col = stack.pop()
-                    if not grid[row][col]:
-                        continue
-                    grid[row][col] = 0
-                    curArea += 1
-                    if row > 0 and grid[row-1][col] == 1:
-                        stack.append((row-1, col))
-                    if col > 0 and grid[row][col-1] == 1:
-                        stack.append((row, col-1))
-                    if row < m - 1 and grid[row+1][col] == 1:
-                        stack.append((row+1, col))
-                    if col < n - 1 and grid[row][col+1] == 1:
-                        stack.append((row, col+1))
-                    maxArea = max(maxArea, curArea)
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                maxArea = max(maxArea, self.dfsArea(grid, i, j))
         return maxArea
 
-# @lc code=end
+    def dfsArea(self, grid: List[List[int]], i: int, j: int) -> int:
+        if i < 0 or j < 0 or i >= len(grid) or j >= len(grid[0]) or not grid[i][j]:
+            return 0
+        grid[i][j] = 0
+        return (
+            1
+            + self.dfsArea(grid, i - 1, j)
+            + self.dfsArea(grid, i, j - 1)
+            + self.dfsArea(grid, i + 1, j)
+            + self.dfsArea(grid, i, j + 1)
+        )
 
+
+# @lc code=end
