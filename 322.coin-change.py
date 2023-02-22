@@ -36,28 +36,31 @@
 # You may assume that you have an infinite number of each kind of coin.
 #
 #
+from collections import deque
+from typing import List
+
 
 # @lc code=start
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
         if not amount:
             return 0
-        dp = [0] * amount
-        for i in range(amount):
-            if i + 1 in coins:
-                dp[i] = 1
-                continue
-            diffs = []
-            for c in coins:
-                diff = i - c
-                if diff >= 0:
-                    val = dp[diff]
-                else:
-                    val = float('Inf')
-                diffs.append(val)
-            dp[i] = 1 + min(diffs)
-        return dp[-1] if dp[-1] != float("inf") else -1
+        step = 0
+        visited = set([amount])
+        queue = deque([amount])
+
+        while queue:
+            length = len(queue)
+            step += 1
+            for _ in range(length):
+                cur = queue.popleft()
+                for coin in coins:
+                    if not cur - coin:
+                        return step
+                    if cur - coin > 0 and cur - coin not in visited:
+                        visited.add(cur - coin)
+                        queue.append(cur - coin)
+        return -1
 
 
 # @lc code=end
-
