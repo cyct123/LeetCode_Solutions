@@ -52,17 +52,14 @@
 # @lc code=start
 class Solution:
     def countPrimes(self, n: int) -> int:
+        isPrimes = [True] * n
         count = 0
         for i in range(2, n):
-            if self.isPrime(i):
+            if isPrimes[i]:
                 count += 1
+                for j in range(i * i, n, i):
+                    isPrimes[j] = False
         return count
-
-    def isPrime(self, n):
-        for i in range(2, int(pow(n, 0.5)) + 1):
-            if not n % i:
-                return False
-        return True
 
 
 # @lc code=end
