@@ -30,17 +30,19 @@
 # the divide and conquer approach, which is more subtle.
 #
 #
+from typing import List
+
 
 # @lc code=start
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
-        dp = [0] * len(nums)
+        dp = [0 for _ in range(len(nums))]
         dp[0] = nums[0]
         maxSum = dp[0]
         for i in range(1, len(nums)):
-            dp[i] = nums[i] + (dp[i-1] if dp[i-1] > 0 else 0)
+            dp[i] = nums[i] + (dp[i - 1] if dp[i - 1] > 0 else 0)
             maxSum = dp[i] if dp[i] > maxSum else maxSum
         return maxSum
 
-# @lc code=end
 
+# @lc code=end
