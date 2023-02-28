@@ -48,21 +48,18 @@
 #
 #
 
+
 # @lc code=start
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
         dp = [0] * m * n
-        dp[0] = 1
-        for i in range(1, m * n):
-            row = i // n
-            col = i - row * n
-            if row >= 1:
-                idx = (row - 1) * n + col
-                dp[i] += dp[idx]
-            if col >= 1:
-                idx = row * n + col - 1
-                dp[i] += dp[idx]
+        for i in range(m):
+            for j in range(n):
+                if not i or not j:
+                    dp[i * n + j] = 1
+                else:
+                    dp[i * n + j] = dp[i * n + j - n] + dp[i * n + j - 1]
         return dp[-1]
 
-# @lc code=end
 
+# @lc code=end
