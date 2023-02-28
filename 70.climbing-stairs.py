@@ -43,15 +43,16 @@
 #
 #
 
+
 # @lc code=start
 class Solution:
     def climbStairs(self, n: int) -> int:
         if n <= 1:
             return 1
         f0 = f1 = 1
-        for i in range(2, n + 1):
-            f = f0 + f1
-            f0, f1 = f1, f
-        return f
-# @lc code=end
+        for _ in range(2, n + 1):
+            f0, f1 = f1, f0 + f1
+        return f1
 
+
+# @lc code=end
