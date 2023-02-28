@@ -32,34 +32,24 @@
 #
 #
 #
+from typing import List
+
 
 # @lc code=start
 class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
-        m = len(grid)
-        if not m:
-            return 0
-        n = len(grid[0])
-        dp = [0] * m * n
-        for i in range(m * n):
-            row = i // n
-            col = i - row * n
-            if row == 0 and col == 0:
-                dp[i] = grid[row][col]
-                continue
-            if row >= 1:
-                idx = (row - 1) * n + col
-                upDp = dp[idx]
-            else:
-                upDp = float('Inf')
-            if col >= 1:
-                idx = row * n + col -1
-                leftDp = dp[idx]
-            else:
-                leftDp = float('Inf')
-            dp[i] = min(leftDp, upDp) + grid[row][col]
-        return dp[-1]
+        dp = [[0 for _ in range(len(grid[0]))] for _ in range(len(grid))]
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if not i and not j:
+                    dp[i][j] = grid[i][j]
+                elif not i:
+                    dp[i][j] = dp[i][j - 1] + grid[i][j]
+                elif not j:
+                    dp[i][j] = dp[i - 1][j] + grid[i][j]
+                else:
+                    dp[i][j] = grid[i][j] + min(dp[i - 1][j], dp[i][j - 1])
+        return dp[-1][-1]
 
 
 # @lc code=end
-
