@@ -41,23 +41,23 @@
 #
 #
 #
+from typing import List
+
 
 # @lc code=start
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         if len(prices) <= 1:
             return 0
-        profits = []
+        maxP = 0
+        profits = [0 for _ in range(len(prices) - 1)]
         for i in range(1, len(prices)):
-            profit = prices[i] - prices[i-1]
-            profits.append(profit)
-        dp = [0] * len(profits)
-        dp[0] = profits[0]
-        maxSum = dp[0]
-        for i in range(1, len(profits)):
-            dp[i] = profits[i] + (dp[i-1] if dp[i-1] > 0 else 0)
-            maxSum = dp[i] if dp[i] > maxSum else maxSum
-        return maxSum if maxSum > 0 else 0
+            if i == 1:
+                profits[i - 1] = prices[i] - prices[i - 1]
+            else:
+                profits[i - 1] = prices[i] - prices[i - 1] + max(profits[i - 2], 0)
+            maxP = max(maxP, profits[i - 1])
+        return maxP
+
 
 # @lc code=end
-
