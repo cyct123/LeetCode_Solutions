@@ -4,9 +4,9 @@
  * [59] Spiral Matrix II
  */
 
+#include <vector>
+using std::vector;
 // @lc code=start
-//#include <vector>
-//using std::vector;
 class Solution {
 public:
     vector<vector<int> > generateMatrix(int n) {
@@ -35,7 +35,7 @@ public:
         }
         if (n % 2 == 1)
             ret[mid][mid] = count;
-        return ret; 
+        return ret;
     }
 };
 // @lc code=end
