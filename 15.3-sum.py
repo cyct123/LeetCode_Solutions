@@ -33,6 +33,8 @@
 # ]
 #
 #
+from typing import List
+
 
 # @lc code=start
 class Solution:
@@ -50,7 +52,7 @@ class Solution:
                 break
             j = i + 1
             k = len(nums) - 1
-            while (j < k):
+            while j < k:
                 b = nums[j]
                 c = nums[k]
                 if a + b + c < 0:
@@ -67,5 +69,5 @@ class Solution:
                         k -= 1
         return ret
 
-# @lc code=end
 
+# @lc code=end
