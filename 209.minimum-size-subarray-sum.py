@@ -54,9 +54,27 @@
 # Follow up: If you have figured out the O(n) solution, try coding another
 # solution of which the time complexity is O(n log(n)).
 #
+from bisect import bisect_left
 from typing import List
+
+
 # @lc code=start
 class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        ans = len(nums) + 1
+        sums = [0]
+        for i in range(len(nums)):
+            sums.append(sums[-1] + nums[i])
+        for i in range(1, len(nums) + 1):
+            s = target + sums[i - 1]
+            bound = bisect_left(sums, s)
+            if bound != len(sums):
+                ans = min(ans, bound - (i - 1))
+        return 0 if ans == len(nums) + 1 else ans
+
+
+# @lc code=end
+class WindowSolution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
         left = right = 0
         ans = len(nums) + 1
@@ -70,6 +88,3 @@ class Solution:
 
             right += 1
         return ans if ans != len(nums) + 1 else 0
-
-# @lc code=end
-
