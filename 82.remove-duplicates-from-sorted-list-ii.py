@@ -31,6 +31,11 @@
 #
 #
 #
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
 
 # @lc code=start
 # Definition for singly-linked list.
@@ -39,20 +44,32 @@
 #         self.val = x
 #         self.next = None
 
+
 class Solution:
     def deleteDuplicates(self, head: ListNode) -> ListNode:
-        dummy = ListNode(None)
-        dummy.next = head
-        prev = dummy
-        prev_val = prev.val
-        while head:
-            if prev_val != head.val and ((not head.next) or (head.val != head.next.val)):
-                prev.next = head
-                prev = head
-            prev_val = head.val
-            head = head.next
-        prev.next = head
-        return dummy.next
+        if not head:
+            return
+        prevNode = head
+        curNode = head.next
+        count = 1
+        dummyNode = ListNode(None)
+        newHead = dummyNode
+        while curNode:
+            if prevNode.val == curNode.val:
+                count += 1
+            else:
+                if count == 1:
+                    newHead.next = prevNode
+                    prevNode.next = None
+                    newHead = newHead.next
+                prevNode = curNode
+                count = 1
+            curNode = curNode.next
+        if count == 1:
+            newHead.next = prevNode
+            prevNode.next = None
+            newHead = newHead.next
+        return dummyNode.next
+
 
 # @lc code=end
-
